@@ -1,0 +1,3 @@
+[submodule "Be.IO"]
+	path = Be.IO
+	url = https://github.com/jamesqo/Be.IO.git
