@@ -116,10 +116,10 @@ namespace HistoryConverter.Data
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="ticks">The ticks.</param>
-        public static void Save(string path, IEnumerable<TickFeed.Tick> ticks)
+        public static void SaveTicks(string path, IEnumerable<TickFeed.Tick> ticks)
         {
             using (Stream stream = File.Open(path, FileMode.Create))
-                Save(stream, ticks);
+                SaveTicks(stream, ticks);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace HistoryConverter.Data
         /// </summary>
         /// <param name="stream">The stream.</param>
         /// <param name="ticks">The ticks.</param>
-        public static void Save(Stream stream, IEnumerable<TickFeed.Tick> ticks)
+        public static void SaveTicks(Stream stream, IEnumerable<TickFeed.Tick> ticks)
         {
             var writer = new BinaryWriter(stream);
 
@@ -136,6 +136,65 @@ namespace HistoryConverter.Data
                 writer.Write((float)tick.Ask);
                 writer.Write((double)tick.Timestamp.ToOADate());
             }
+        }
+
+        /// <summary>
+        /// Loads the bar data from the specified path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="format">The format.</param>
+        /// <returns></returns>
+        public static List<BarData> Load(string path, DataFormat format)
+        {
+            return Load(File.Open(path, FileMode.Open), format);
+        }
+
+        /// <summary>
+        /// Loads the bar data from specified stream.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="format">The format.</param>
+        /// <returns></returns>
+        public static List<BarData> Load(Stream stream, DataFormat format)
+        {
+            var reader = new BinaryReader(stream);
+            var data = new List<BarData>();
+
+            while (stream.Position != stream.Length)
+            {
+                var bar = new BarData();
+
+                switch (format)
+                {
+                    case DataFormat.Bar:
+                        bar.Open = reader.ReadSingle();
+                        bar.Close = reader.ReadSingle();
+                        bar.High = reader.ReadSingle();
+                        bar.Low = reader.ReadSingle();
+                        bar.Timestamp = DateTime.FromOADate(reader.ReadDouble());
+                        break;
+
+                    case DataFormat.T1:
+                        bar.Timestamp = DateTime.FromOADate(reader.ReadDouble());
+                        bar.Open = bar.Close = bar.High = bar.Low = reader.ReadSingle();
+                        break;
+
+                    case DataFormat.T6:
+                        bar.Timestamp = DateTime.FromOADate(reader.ReadDouble());
+                        bar.High = reader.ReadSingle();
+                        bar.Low = reader.ReadSingle();
+                        bar.Open = reader.ReadSingle();
+                        bar.Close = reader.ReadSingle();
+                        reader.ReadSingle();
+                        bar.Volume = reader.ReadSingle();
+                        break;
+                }
+
+                data.Add(bar);
+            }
+
+            data.Reverse();
+            return data;
         }
     }
 }

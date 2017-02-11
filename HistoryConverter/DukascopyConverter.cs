@@ -52,7 +52,6 @@ namespace HistoryConverter
             pointValues.Add("GBPJPY", 0.001);
             pointValues.Add("NZDJPY", 0.001);
 
-            //var download = new string[] { "EURUSD", "AUDUSD", "GBPUSD", "NZDUSD", "USDCAD", "USDCHF", "USDJPY" };
             var symbols = new string[]
             {
                 "EURUSD"
@@ -141,11 +140,11 @@ namespace HistoryConverter
                 var ticks = dukascopy.LoadTickFeed(symbol, pointValue, startDate, endDate, false).ToList();
                 if (ticks.Count != 0)
                 {
-                    Zorro.Save(Path.Combine("Zorro", $"{symbol}_{year}.t1"), ticks);
+                    Zorro.SaveTicks(Path.Combine("Zorro", $"{symbol}_{year}.t1"), ticks);
                     var spread = new List<TickFeed.Tick>();
                     foreach (var t in ticks)
                         spread.Add(new TickFeed.Tick() { Timestamp = t.Timestamp, Bid = 0, Ask = t.Ask - t.Bid });
-                    Zorro.Save(Path.Combine(dirPath, "Zorro", $"{symbol}s_{year}.t1"), ticks);
+                    Zorro.SaveTicks(Path.Combine(dirPath, "Zorro", $"{symbol}s_{year}.t1"), ticks);
                 }
             }
         }
