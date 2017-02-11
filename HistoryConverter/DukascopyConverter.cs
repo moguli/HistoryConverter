@@ -97,11 +97,11 @@ namespace HistoryConverter
 
                 // Save to Zorro .bar format.
                 Console.WriteLine($"Saving Zorro .bar data for {symbol}");
-                SaveZorroBarData(zorroDir, symbol, askBars, Zorro.DataFormat.Bar);
+                Helper.SaveZorroBarData(zorroDir, symbol, askBars, Zorro.DataFormat.Bar);
 
                 // Save spread data to Zorro .bar format for special symbol.
                 Console.WriteLine($"Saving Zorro .bar spread data for {symbol}s");
-                SaveZorroBarData(zorroDir, symbol + "s", spread, Zorro.DataFormat.Bar);
+                Helper.SaveZorroBarData(zorroDir, symbol + "s", spread, Zorro.DataFormat.Bar);
 
                 //// Save to Zorro T1 format (price + spread)
                 //Console.WriteLine($"Saving Zorro T1 data for {symbol}");
@@ -117,19 +117,6 @@ namespace HistoryConverter
             }
         }
 
-        private static void SaveZorroBarData(string dirPath, string symbol, List<BarData> bars, Zorro.DataFormat format)
-        {
-            DateTime minDate = bars.First().Timestamp;
-            DateTime maxDate = bars.Last().Timestamp;
-
-            Console.WriteLine($"Saving Zorro {symbol} data ({minDate} - {maxDate})");
-            for (int year = minDate.Year; year <= maxDate.Year; year++)
-            {
-                var path = Path.Combine(dirPath, $"Zorro/{symbol}_{year}.bar");
-                Zorro.Save(path, bars.Where(x => x.Timestamp.Year == year), format);
-            }
-        }
-
         private static void SaveZorroT1Data(string dirPath, Dukascopy dukascopy, string symbol, double pointValue)
         {
             for (int year = 2007; year <= DateTime.UtcNow.Year; ++year)
@@ -140,11 +127,11 @@ namespace HistoryConverter
                 var ticks = dukascopy.LoadTickFeed(symbol, pointValue, startDate, endDate, false).ToList();
                 if (ticks.Count != 0)
                 {
-                    Zorro.SaveTicks(Path.Combine("Zorro", $"{symbol}_{year}.t1"), ticks);
+                    Zorro.SaveTicks($"{symbol}_{year}.t1", ticks);
                     var spread = new List<TickFeed.Tick>();
                     foreach (var t in ticks)
                         spread.Add(new TickFeed.Tick() { Timestamp = t.Timestamp, Bid = 0, Ask = t.Ask - t.Bid });
-                    Zorro.SaveTicks(Path.Combine(dirPath, "Zorro", $"{symbol}s_{year}.t1"), ticks);
+                    Zorro.SaveTicks(Path.Combine(dirPath, $"{symbol}s_{year}.t1"), ticks);
                 }
             }
         }

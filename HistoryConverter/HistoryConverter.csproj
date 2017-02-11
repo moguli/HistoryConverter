@@ -67,6 +67,7 @@
     <Compile Include="..\Be.IO\src\Be.IO\Helpers\Reinterpret.cs">
       <Link>Helpers\Reinterpret.cs</Link>
     </Compile>
+    <Compile Include="BitcoinConverter.cs" />
     <Compile Include="Data\BarData.cs" />
     <Compile Include="Data\BarDataResampler.cs" />
     <Compile Include="Data\Dukascopy.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Data\TickFeed.cs" />
     <Compile Include="Data\Zorro.cs" />
     <Compile Include="DukascopyConverter.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="KibotConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

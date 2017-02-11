@@ -36,6 +36,7 @@ namespace HistoryConverter
         {
             //new DukascopyConverter().Run();
             //new KibotConverter().Run();
+            new BitcoinConverter().Run();
         }
     }
 }
