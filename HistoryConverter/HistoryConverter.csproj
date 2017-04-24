@@ -35,6 +35,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Be.IO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Be.IO.1.0.0\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+Xamarin.iOS10+MonoTouch10\Be.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SevenZip, Version=4.12.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SevenZip.4.12.1\lib\net20\SevenZip.dll</HintPath>
       <Private>True</Private>
@@ -49,24 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Be.IO\src\Be.IO\BeBinaryReader.cs">
-      <Link>BeBinaryReader.cs</Link>
-    </Compile>
-    <Compile Include="..\Be.IO\src\Be.IO\BeBinaryWriter.cs">
-      <Link>BeBinaryWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\Be.IO\src\Be.IO\Helpers\BigEndian.cs">
-      <Link>Helpers\BigEndian.cs</Link>
-    </Compile>
-    <Compile Include="..\Be.IO\src\Be.IO\Helpers\Empty.cs">
-      <Link>Helpers\Empty.cs</Link>
-    </Compile>
-    <Compile Include="..\Be.IO\src\Be.IO\Helpers\Error.cs">
-      <Link>Helpers\Error.cs</Link>
-    </Compile>
-    <Compile Include="..\Be.IO\src\Be.IO\Helpers\Reinterpret.cs">
-      <Link>Helpers\Reinterpret.cs</Link>
-    </Compile>
     <Compile Include="BitcoinConverter.cs" />
     <Compile Include="Data\BarData.cs" />
     <Compile Include="Data\BarDataResampler.cs" />
