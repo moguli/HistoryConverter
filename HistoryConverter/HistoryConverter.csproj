@@ -57,8 +57,10 @@
     <Compile Include="Data\BarData.cs" />
     <Compile Include="Data\BarDataResampler.cs" />
     <Compile Include="Data\Dukascopy.cs" />
+    <Compile Include="Data\DukascopyCsv.cs" />
     <Compile Include="Data\ForexTester.cs" />
     <Compile Include="Data\Kibot.cs" />
+    <Compile Include="Data\PyAlgoTrade.cs" />
     <Compile Include="Data\TickFeed.cs" />
     <Compile Include="Data\Zorro.cs" />
     <Compile Include="DukascopyConverter.cs" />
