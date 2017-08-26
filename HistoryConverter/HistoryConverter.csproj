@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitcoinConverter.cs" />
+    <Compile Include="Data\Argon.cs" />
     <Compile Include="Data\BarData.cs" />
     <Compile Include="Data\BarDataResampler.cs" />
     <Compile Include="Data\Dukascopy.cs" />

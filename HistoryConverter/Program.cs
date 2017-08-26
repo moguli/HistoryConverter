@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using HistoryConverter.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace HistoryConverter
         {
             //new DukascopyConverter().Run();
             //new KibotConverter().Run();
-            new BitcoinConverter().Run();
+            //new BitcoinConverter().Run();
         }
     }
 }
