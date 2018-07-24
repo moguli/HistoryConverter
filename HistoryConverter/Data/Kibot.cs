@@ -102,17 +102,22 @@ namespace HistoryConverter.Data
 
                     if (items.Length == 7)
                     {
-                        var time = DateTime.ParseExact(items[index++], "HH:mm", CultureInfo.InvariantCulture);
+                        DateTime time;
+                        if (!DateTime.TryParseExact(items[index], "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out time))
+                            time = DateTime.ParseExact(items[index], "HH:mm:ss", CultureInfo.InvariantCulture);
+                        index++;
+
                         date = date.AddHours(time.Hour);
                         date = date.AddMinutes(time.Minute);
                     }
 
                     bar.Timestamp = TimeZoneInfo.ConvertTimeToUtc(date, easternZone);
-                    bar.Open = double.Parse(items[index++], CultureInfo.InvariantCulture);
-                    bar.High = double.Parse(items[index++], CultureInfo.InvariantCulture);
-                    bar.Low = double.Parse(items[index++], CultureInfo.InvariantCulture);
-                    bar.Close = double.Parse(items[index++], CultureInfo.InvariantCulture);
-                    bar.Volume = double.Parse(items[index++], CultureInfo.InvariantCulture);
+
+                    bar.Open = double.Parse(FixNumber(items[index++]), CultureInfo.InvariantCulture);
+                    bar.High = double.Parse(FixNumber(items[index++]), CultureInfo.InvariantCulture);
+                    bar.Low = double.Parse(FixNumber(items[index++]), CultureInfo.InvariantCulture);
+                    bar.Close = double.Parse(FixNumber(items[index++]), CultureInfo.InvariantCulture);
+                    bar.Volume = double.Parse(FixNumber(items[index++]), CultureInfo.InvariantCulture);
 
                     if (fromDateTime != null && bar.Timestamp < fromDateTime)
                         continue;
@@ -123,6 +128,18 @@ namespace HistoryConverter.Data
                     yield return bar;
                 }
             }
+        }
+
+        private static string FixNumber(string str)
+        {
+            int count = str.Count(x => x == '.');
+            if (count != 2)
+                return str;
+
+            var index1 = str.IndexOf('.');
+            var index2 = str.IndexOf('.', index1 + 1);
+
+            return str.Substring(0, index1) + str.Substring(index2);
         }
     }
 }
